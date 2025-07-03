@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import Button from './ui/Button';
 import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
@@ -30,11 +29,6 @@ const Header: React.FC = () => {
     { name: 'Safaris', path: '/safaris'},
     { name: 'Coast', path: '/coast'},
     { name: 'Travel Guide', path: '/travelguide'}
-    
-    
-   
-    
-   
   ];
 
   const toggleDropdown = (name: string) => {
@@ -55,140 +49,41 @@ const Header: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md py-3" ref={dropdownRef}>
+    <header className="bg-white shadow-md py-3" ref={dropdownRef}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        {/* Logo */}
-<Link to="/" className="flex items-center gap-2">
-  {/* Add your logo image here */}
-  <img 
-    src="/images/logo.png"  // Update this path to your actual logo
-    alt="Nivishe Logo"
-    className="h-16 w-auto"  // Adjust height as needed
-  />
-  {/* <span className="text-2xl font-bold text-orange-600">
-    Nivishe
-  </span> */}
-</Link>
+        <Link to="/" className="flex items-center gap-2">
+          <img 
+            src="/images/logo.png"
+            alt="Nivishe Logo"
+            className="h-16 w-auto"
+          />
+        </Link>
 
-        {/* Right-aligned Desktop Navigation */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           <nav className="flex items-center gap-6">
             {navLinks.map((link) => (
               <div key={link.name} className="relative">
-                {link.dropdown ? (
-                  <>
-                    <button
-                      onClick={() => toggleDropdown(link.name)}
-                      className={`flex items-center font-medium hover:text-brand transition-colors ${
-                        openDropdown === link.name ? 'text-brand' : 'text-gray-800'
-                      }`}
-                    >
-                      {link.name}
-                      <ChevronDown size={16} className="ml-1" />
-                    </button>
-
-                    {openDropdown === link.name && (
-                      <div className="absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                        <div className="py-1">
-                          {link.dropdown.map((item) => (
-                            <div key={item.name} className="relative">
-                              {item.submenu ? (
-                                <>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      toggleSubDropdown(item.name);
-                                    }}
-                                    className="w-full text-left flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                  >
-                                    {item.name}
-                                    <ChevronDown size={14} />
-                                  </button>
-
-                                  {openSubDropdown === item.name && (
-                                    <div className="absolute right-full top-0 mr-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                                      <div className="py-1">
-                                        {item.submenu.map((subItem) => (
-                                          <div key={subItem.name} className="relative">
-                                            {subItem.submenu ? (
-                                              <>
-                                                <button
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          toggleThirdDropdown(subItem.name);
-                                        }}
-                                        className="w-full flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                      >
-                                        {subItem.name}
-                                        <ChevronDown size={12} />
-                                      </button>
-                                                
-                                                {openThirdDropdown === subItem.name && (
-                                                  <div className="absolute right-full top-0 mr-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
-                                                    <div className="py-1">
-                                                      {subItem.submenu.map((thirdItem) => (
-                                                        <Link
-                                                          key={thirdItem.name}
-                                                          to={thirdItem.path}
-                                                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                          onClick={() => {
-                                                            setOpenDropdown(null);
-                                                            setOpenSubDropdown(null);
-                                                            setOpenThirdDropdown(null);
-                                                          }}
-                                                        >
-                                                          {thirdItem.name}
-                                                        </Link>
-                                                      ))}
-                                                    </div>
-                                                  </div>
-                                                )}
-                                              </>
-                                            ) : (
-                                              <Link
-                                                to={subItem.path}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setOpenDropdown(null)}
-                                              >
-                                                {subItem.name}
-                                              </Link>
-                                            )}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  )}
-                                </>
-                              ) : (
-                                <Link
-                                  to={item.path}
-                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                  onClick={() => setOpenDropdown(null)}
-                                >
-                                  {item.name}
-                                </Link>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to={link.path}
-                    className={`font-medium hover:text-brand transition-colors ${
-                      isActive(link.path) ? 'text-brand' : 'text-gray-800'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                )}
+                <Link
+                  to={link.path}
+                  className={`font-medium hover:text-brand transition-colors ${
+                    isActive(link.path) ? 'text-brand' : 'text-gray-800'
+                  }`}
+                >
+                  {link.name}
+                </Link>
               </div>
             ))}
           </nav>
-          {/* <Button variant="primary">Donate</Button> */}
+          <div className="flex gap-4">
+            <button className="bg-brand text-white px-4 py-2 rounded-lg hover:bg-brand-dark transition">
+              Book Now
+            </button>
+            <button className="text-gray-800 border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition">
+              Contact Us
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
@@ -206,121 +101,31 @@ const Header: React.FC = () => {
         <div className="md:hidden bg-white shadow-lg">
           <div className="container mx-auto px-4 py-4 flex flex-col">
             {navLinks.map((link) => (
-              <div key={link.name}>
-                {link.dropdown ? (
-                  <>
-                    <button
-                      onClick={() => toggleDropdown(link.name)}
-                      className={`flex items-center justify-between w-full py-3 font-medium border-b border-gray-100 ${
-                        openDropdown === link.name ? 'text-brand' : 'text-gray-800'
-                      }`}
-                      aria-expanded={openDropdown === link.name}
-                    >
-                      {link.name}
-                      <ChevronDown
-                        size={16}
-                        className={`transition-transform ${
-                          openDropdown === link.name ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                    {openDropdown === link.name && (
-                      <div className="pl-4">
-                        {link.dropdown.map((item) => (
-                          <div key={item.name}>
-                            {item.submenu ? (
-                              <>
-                                <button
-                                  onClick={() => toggleSubDropdown(item.name)}
-                                  className="flex items-center justify-between w-full py-2 text-sm text-gray-700"
-                                  aria-expanded={openSubDropdown === item.name}
-                                >
-                                  {item.name}
-                                  <ChevronDown
-                                    size={14}
-                                    className={`transform ${
-                                      openSubDropdown === item.name ? 'rotate-180' : ''
-                                    }`}
-                                  />
-                                </button>
-                                {openSubDropdown === item.name && (
-                                  <div className="pl-4">
-                                    {item.submenu.map((subItem) => (
-                                      <div key={subItem.name}>
-                                        {subItem.submenu ? (
-                                          <>
-                                            <button
-                                              onClick={() => toggleThirdDropdown(subItem.name)}
-                                              className="flex items-center justify-between w-full py-2 text-sm text-gray-700"
-                                              aria-expanded={openThirdDropdown === subItem.name}
-                                            >
-                                              {subItem.name}
-                                              <ChevronDown
-                                                size={12}
-                                                className={`transform ${
-                                                  openThirdDropdown === subItem.name ? 'rotate-180' : ''
-                                                }`}
-                                              />
-                                            </button>
-                                            {openThirdDropdown === subItem.name && (
-                                              <div className="pl-4">
-                                                {subItem.submenu.map((thirdItem) => (
-                                                  <Link
-                                                    key={thirdItem.name}
-                                                    to={thirdItem.path}
-                                                    className="block py-2 text-sm text-gray-700"
-                                                    onClick={() => setIsOpen(false)}
-                                                  >
-                                                    {thirdItem.name}
-                                                  </Link>
-                                                ))}
-                                              </div>
-                                            )}
-                                          </>
-                                        ) : (
-                                          <Link
-                                            to={subItem.path}
-                                            className="block py-2 text-sm text-gray-700"
-                                            onClick={() => setIsOpen(false)}
-                                          >
-                                            {subItem.name}
-                                          </Link>
-                                        )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </>
-                            ) : (
-                              <Link
-                                to={item.path}
-                                className="block py-2 text-sm text-gray-700"
-                                onClick={() => setIsOpen(false)}
-                              >
-                                {item.name}
-                              </Link>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    to={link.path}
-                    className={`py-3 font-medium border-b border-gray-100 ${
-                      isActive(link.path) ? 'text-brand' : 'text-gray-800'
-                    }`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                )}
-              </div>
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`py-3 font-medium border-b border-gray-100 ${
+                  isActive(link.path) ? 'text-brand' : 'text-gray-800'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </Link>
             ))}
-            {/* <div className="mt-4">
-              <Button variant="primary" className="w-full">Donate</Button>
-            </div> */}
+            <div className="mt-4 flex flex-col gap-3">
+              <button 
+                className="bg-brand text-white px-4 py-3 rounded-lg hover:bg-brand-dark transition"
+                onClick={() => setIsOpen(false)}
+              >
+                Book Now
+              </button>
+              <button 
+                className="text-gray-800 border border-gray-300 px-4 py-3 rounded-lg hover:bg-gray-50 transition"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact Us
+              </button>
+            </div>
           </div>
         </div>
       )}

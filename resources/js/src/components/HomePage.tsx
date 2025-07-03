@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
 import Hero from './Hero';
 import FeaturedDestinations from './FeaturedDestinations';
 import About from './About';
@@ -15,7 +15,7 @@ import Email from './Email';
 function App() {
   return (
     <div className="font-sans">
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <FeaturedDestinations />
       <About />
