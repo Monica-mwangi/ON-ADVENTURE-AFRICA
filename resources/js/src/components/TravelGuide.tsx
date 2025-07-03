@@ -56,9 +56,9 @@ const TravelGuide = () => {
 
       {/* Centered Button */}
       <div className="flex justify-center">
-        <button className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-3 rounded-full transition">
-          View Travel Guide
-        </button>
+        <button className="bg-brand hover:bg-brand/90 text-white text-sm font-medium px-6 py-3 rounded-full transition">
+  View Travel Guide
+</button>
       </div>
     </section>
   );

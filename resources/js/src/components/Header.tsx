@@ -1,113 +1,329 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, MapPin, Facebook, Instagram, Twitter } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import Button from './ui/Button';
+import { Link, useLocation } from 'react-router-dom';
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+const Header: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openSubDropdown, setOpenSubDropdown] = useState<string | null>(null);
+  const [openThirdDropdown, setOpenThirdDropdown] = useState<string | null>(null);
+  const location = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+        setOpenSubDropdown(null);
+        setOpenThirdDropdown(null);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About Us', href: '#about' },
-    { name: 'Destinations', href: '#destinations' },
-    { name: 'Safaris', href: '#safaris' },
-    { name: 'Coast', href: '#coast' },
-    { name: 'Travel Guide', href: '#guide' },
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Destinations', path: '/destinations'},
+    { name: 'Safaris', path: '/safaris'},
+    { name: 'Coast', path: '/coast'},
+    { name: 'Travel Guide', path: '/travelguide'}
+    
+    
+   
+    
+   
   ];
 
+  const toggleDropdown = (name: string) => {
+    setOpenDropdown(openDropdown === name ? null : name);
+    setOpenSubDropdown(null);
+    setOpenThirdDropdown(null);
+  };
+
+  const toggleSubDropdown = (name: string) => {
+    setOpenSubDropdown(openSubDropdown === name ? null : name);
+    setOpenThirdDropdown(null);
+  };
+
+  const toggleThirdDropdown = (name: string) => {
+    setOpenThirdDropdown(openThirdDropdown === name ? null : name);
+  };
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
-    }`}>
-      {/* Top Mini Header */}
-     <div
-  className="w-full py-2 px-4 text-sm text-white"
-  style={{ backgroundColor: '#9c9c9c' }}
->
-  <div className="container-max flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0">
-    <div className="flex-1 text-left">
-      Call us: +254 712 345 678
-    </div>
-    <div className="flex-1 text-center">
-      Email: info@onadventures.co.ke
-    </div>
-    <div className="flex-1 text-right flex justify-end space-x-3">
-      <a href="#" className="hover:text-accent-500"><Facebook size={16} /></a>
-      <a href="#" className="hover:text-accent-500"><Instagram size={16} /></a>
-      <a href="#" className="hover:text-accent-500"><Twitter size={16} /></a>
-    </div>
-  </div>
-</div>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md py-3" ref={dropdownRef}>
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        {/* Logo */}
+        {/* Logo */}
+<Link to="/" className="flex items-center gap-2">
+  {/* Add your logo image here */}
+  <img 
+    src="/images/logo.png"  // Update this path to your actual logo
+    alt="Nivishe Logo"
+    className="h-16 w-auto"  // Adjust height as needed
+  />
+  {/* <span className="text-2xl font-bold text-orange-600">
+    Nivishe
+  </span> */}
+</Link>
 
+        {/* Right-aligned Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-8">
+          <nav className="flex items-center gap-6">
+            {navLinks.map((link) => (
+              <div key={link.name} className="relative">
+                {link.dropdown ? (
+                  <>
+                    <button
+                      onClick={() => toggleDropdown(link.name)}
+                      className={`flex items-center font-medium hover:text-brand transition-colors ${
+                        openDropdown === link.name ? 'text-brand' : 'text-gray-800'
+                      }`}
+                    >
+                      {link.name}
+                      <ChevronDown size={16} className="ml-1" />
+                    </button>
 
-      {/* Main Header */}
-      <div className="container-max">
-        <div className="flex items-center justify-between py-4">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <MapPin className={`h-8 w-8 ${isScrolled ? 'text-primary-600' : 'text-white'}`} />
-            <span className={`text-xl font-bold ${
-              isScrolled ? 'text-gray-900' : 'text-white'
-            }`}>
-              OnAdventures
-            </span>
-          </div>
+                    {openDropdown === link.name && (
+                      <div className="absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                        <div className="py-1">
+                          {link.dropdown.map((item) => (
+                            <div key={item.name} className="relative">
+                              {item.submenu ? (
+                                <>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleSubDropdown(item.name);
+                                    }}
+                                    className="w-full text-left flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                  >
+                                    {item.name}
+                                    <ChevronDown size={14} />
+                                  </button>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={`font-medium transition-colors duration-300 hover:text-accent-500 ${
-                  isScrolled ? 'text-gray-700' : 'text-white'
-                }`}
-              >
-                {item.name}
-              </a>
+                                  {openSubDropdown === item.name && (
+                                    <div className="absolute right-full top-0 mr-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                                      <div className="py-1">
+                                        {item.submenu.map((subItem) => (
+                                          <div key={subItem.name} className="relative">
+                                            {subItem.submenu ? (
+                                              <>
+                                                <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          toggleThirdDropdown(subItem.name);
+                                        }}
+                                        className="w-full flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                      >
+                                        {subItem.name}
+                                        <ChevronDown size={12} />
+                                      </button>
+                                                
+                                                {openThirdDropdown === subItem.name && (
+                                                  <div className="absolute right-full top-0 mr-1 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                                                    <div className="py-1">
+                                                      {subItem.submenu.map((thirdItem) => (
+                                                        <Link
+                                                          key={thirdItem.name}
+                                                          to={thirdItem.path}
+                                                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                          onClick={() => {
+                                                            setOpenDropdown(null);
+                                                            setOpenSubDropdown(null);
+                                                            setOpenThirdDropdown(null);
+                                                          }}
+                                                        >
+                                                          {thirdItem.name}
+                                                        </Link>
+                                                      ))}
+                                                    </div>
+                                                  </div>
+                                                )}
+                                              </>
+                                            ) : (
+                                              <Link
+                                                to={subItem.path}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setOpenDropdown(null)}
+                                              >
+                                                {subItem.name}
+                                              </Link>
+                                            )}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
+                                <Link
+                                  to={item.path}
+                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                  onClick={() => setOpenDropdown(null)}
+                                >
+                                  {item.name}
+                                </Link>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={link.path}
+                    className={`font-medium hover:text-brand transition-colors ${
+                      isActive(link.path) ? 'text-brand' : 'text-gray-800'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </div>
             ))}
-            <button className="btn-primary">
-              Book Now
-            </button>
           </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            className={`md:hidden ${isScrolled ? 'text-gray-900' : 'text-white'}`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* <Button variant="primary">Donate</Button> */}
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t">
-            <nav className="py-4 space-y-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="block text-gray-700 font-medium hover:text-accent-500 transition-colors duration-300"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-              <button className="btn-primary w-full mt-4">
-                Book Now
-              </button>
-            </nav>
-          </div>
-        )}
+        {/* Mobile Menu Button */}
+        <button 
+          className="md:hidden text-gray-600 hover:text-brand transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="md:hidden bg-white shadow-lg">
+          <div className="container mx-auto px-4 py-4 flex flex-col">
+            {navLinks.map((link) => (
+              <div key={link.name}>
+                {link.dropdown ? (
+                  <>
+                    <button
+                      onClick={() => toggleDropdown(link.name)}
+                      className={`flex items-center justify-between w-full py-3 font-medium border-b border-gray-100 ${
+                        openDropdown === link.name ? 'text-brand' : 'text-gray-800'
+                      }`}
+                      aria-expanded={openDropdown === link.name}
+                    >
+                      {link.name}
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform ${
+                          openDropdown === link.name ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                    {openDropdown === link.name && (
+                      <div className="pl-4">
+                        {link.dropdown.map((item) => (
+                          <div key={item.name}>
+                            {item.submenu ? (
+                              <>
+                                <button
+                                  onClick={() => toggleSubDropdown(item.name)}
+                                  className="flex items-center justify-between w-full py-2 text-sm text-gray-700"
+                                  aria-expanded={openSubDropdown === item.name}
+                                >
+                                  {item.name}
+                                  <ChevronDown
+                                    size={14}
+                                    className={`transform ${
+                                      openSubDropdown === item.name ? 'rotate-180' : ''
+                                    }`}
+                                  />
+                                </button>
+                                {openSubDropdown === item.name && (
+                                  <div className="pl-4">
+                                    {item.submenu.map((subItem) => (
+                                      <div key={subItem.name}>
+                                        {subItem.submenu ? (
+                                          <>
+                                            <button
+                                              onClick={() => toggleThirdDropdown(subItem.name)}
+                                              className="flex items-center justify-between w-full py-2 text-sm text-gray-700"
+                                              aria-expanded={openThirdDropdown === subItem.name}
+                                            >
+                                              {subItem.name}
+                                              <ChevronDown
+                                                size={12}
+                                                className={`transform ${
+                                                  openThirdDropdown === subItem.name ? 'rotate-180' : ''
+                                                }`}
+                                              />
+                                            </button>
+                                            {openThirdDropdown === subItem.name && (
+                                              <div className="pl-4">
+                                                {subItem.submenu.map((thirdItem) => (
+                                                  <Link
+                                                    key={thirdItem.name}
+                                                    to={thirdItem.path}
+                                                    className="block py-2 text-sm text-gray-700"
+                                                    onClick={() => setIsOpen(false)}
+                                                  >
+                                                    {thirdItem.name}
+                                                  </Link>
+                                                ))}
+                                              </div>
+                                            )}
+                                          </>
+                                        ) : (
+                                          <Link
+                                            to={subItem.path}
+                                            className="block py-2 text-sm text-gray-700"
+                                            onClick={() => setIsOpen(false)}
+                                          >
+                                            {subItem.name}
+                                          </Link>
+                                        )}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <Link
+                                to={item.path}
+                                className="block py-2 text-sm text-gray-700"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={link.path}
+                    className={`py-3 font-medium border-b border-gray-100 ${
+                      isActive(link.path) ? 'text-brand' : 'text-gray-800'
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </div>
+            ))}
+            {/* <div className="mt-4">
+              <Button variant="primary" className="w-full">Donate</Button>
+            </div> */}
+          </div>
+        </div>
+      )}
     </header>
   );
 };

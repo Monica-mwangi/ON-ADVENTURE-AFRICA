@@ -18,7 +18,7 @@ const SafariSection = () => {
 
   return (
     <section
-      className="min-h-screen w-full px-6 py-16 text-white"
+      className="min-h-screen w-full px-6 py-16 text-white antialiased"
       style={{ fontFamily: 'Montserrat, sans-serif' }}
     >
       <div className="max-w-7xl mx-auto text-left mb-12">
@@ -38,10 +38,10 @@ const SafariSection = () => {
             className="relative bg-cover bg-center h-72 rounded-lg overflow-hidden shadow-lg"
             style={{ backgroundImage: `url(${pkg.image})` }}
           >
-            <div className="absolute inset-0 bg-opacity-50 flex flex-col justify-end p-4">
+            <div className="absolute inset-0 bg-black/50 flex flex-col justify-end p-4">
               <h2 className="text-xl font-semibold mb-3">{pkg.title}</h2>
               <div className="flex items-center justify-between">
-                <button className="bg-orange-500 text-white px-4 py-2 text-sm rounded hover:bg-orange-600 transition">
+                <button className="bg-brand text-white px-4 py-2 text-sm rounded hover:bg-brand/90 transition">
                   Explore Places
                 </button>
                 <span className="text-sm text-black bg-white px-3 py-1 rounded">
@@ -53,9 +53,9 @@ const SafariSection = () => {
         ))}
       </div>
 
-      {/* ✅ Properly centered button */}
+      {/* Centered button */}
       <div className="flex justify-center">
-        <button className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-6 py-3 rounded-full transition">
+        <button className="bg-brand hover:bg-brand/90 text-white text-sm font-medium px-6 py-3 rounded-full transition">
           View More Packages
         </button>
       </div>

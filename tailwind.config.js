@@ -8,6 +8,9 @@ export default {
         'sans': ['Montserrat', 'system-ui', 'sans-serif'],
       },
       colors: {
+        brand: {
+          DEFAULT: '#9b1a30',
+        },
         primary: {
           50: '#eff6ff',
           100: '#dbeafe',

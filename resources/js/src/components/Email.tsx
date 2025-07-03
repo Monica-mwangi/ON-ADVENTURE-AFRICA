@@ -22,7 +22,7 @@ const Email = () => {
           />
           <button
             type="submit"
-            className="bg-orange-500 text-white px-6 py-3 rounded-full hover:bg-orange-600 transition font-medium"
+            className="bg-brand hover:bg-brand/90 text-white text-sm font-medium px-6 py-3 rounded-full transition"
           >
             Submit
           </button>

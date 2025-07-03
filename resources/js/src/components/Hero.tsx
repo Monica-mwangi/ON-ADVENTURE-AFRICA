@@ -8,7 +8,7 @@ const Hero = () => {
       <div 
   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
   style={{
-    backgroundImage: "url('/images/maasai-mara.jpg')"
+    backgroundImage: "url('/images/safari.jpg')"
   }}
 >
   {/* <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
@@ -19,7 +19,7 @@ const Hero = () => {
       <div className="relative z-10 text-center mt-[100px] text-white container-max">
         <h1 className="text-5xl md:text-7xl mb-6 leading-tight text-shadow-lg">
           Feel Free To Discover Most 
-          <span className="block text-accent-500 text-shadow-lg">Engaging Places</span>
+          <span className="block text-brand text-shadow-lg">Engaging Places</span>
         </h1>
         <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-medium leading-relaxed font-bold text-shadow-lg">
          Best Places For Your Next Travel Are Here Check Them Out 
@@ -27,7 +27,7 @@ const Hero = () => {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           {
-            <button type="button" className="text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300 font-medium rounded-full text-base px-6 py-3 text-center me-2 mb-2 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800">
+            <button type="button" className="bg-brand hover:bg-brand/90 text-white text-sm font-medium px-6 py-3 rounded-full transition">
   START A TRIP
 </button>
 

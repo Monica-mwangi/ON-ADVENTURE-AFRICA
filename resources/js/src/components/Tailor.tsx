@@ -27,7 +27,7 @@ const Tailor = () => {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           {
-            <button type="button" className="text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-300 font-medium rounded-full text-base px-6 py-3 text-center me-2 mb-2 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800">
+            <button type="button" className="bg-brand hover:bg-brand/90 text-white text-sm font-medium px-6 py-3 rounded-full transition">
   Ready For A Tailormade Trip
 </button>
 
